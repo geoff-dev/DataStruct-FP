@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,19 +21,26 @@ public class AgentsList : MonoBehaviour
         EventsManager.OnSetPath.OnAction -= OnSetPath;
     }
 
+    private void Start() {
+        foreach (var agent in _agentsDictionary.Values)
+            EventsManager.OnUpdateAgentCount.InvokeAction(agent.Type, agent.Count);
+    }
+
     private void OnSetPath(Tile startTile) {
         var map = MapManager.GetCurrentMap();
         var path = map.GetRoute(startTile);
         _currentAgent.transform.position = startTile.transform.position;
         _currentAgent.SetPath(path);
+        //TODO event of last cat spawned and not moving/reached goal, ready for result
+        int currentCount = --_agentsDictionary[_currentAgent.Type].Count;
+        EventsManager.OnUpdateAgentCount.InvokeAction(_currentAgent.Type, currentCount);
     }
     
     private void OnPointerClickAction(AgentType type) {
         if (!_agentsDictionary.TryGetValue(type, out var agentData)) 
             return;
         //TODO display spawn counts to UI panel
-        // if (agentData.Count <= 0) return;
-        // agentData.Count--;
+        if (agentData.Count <= 0) return;
         Agent agent = Instantiate(agentData.Prefab);
         EventsManager.OnReadyToSpawnAgent.InvokeAction(agent);
         _currentAgent = agent;

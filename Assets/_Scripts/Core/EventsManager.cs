@@ -6,6 +6,16 @@ public static class EventsManager
     public static ActionOption<AgentType> OnPointerClick;
     public static ActionOption<Agent> OnReadyToSpawnAgent;
     public static ActionOption<Tile> OnSetPath;
+    public static ActionOption<AgentType, int> OnUpdateAgentCount;
+}
+
+public struct ActionOption<T,U>
+{
+    public event Action<T,U> OnAction;
+
+    public void InvokeAction(T t1, U t2) {
+        OnAction?.Invoke(t1, t2);
+    }
 }
 
 public struct ActionOption<T>
