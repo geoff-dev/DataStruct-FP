@@ -1,14 +1,9 @@
-using System;
 using UnityEngine;
 
-public class InputController : MonoBehaviour
-{
-    private GameObject _spriteObj;
-    private Camera _camera;
-    private bool _launchAgent = false;
+public class InputController : MonoBehaviour {
+    private Transform _spriteTr;
 
     private void Awake() {
-        _camera = Camera.main;
         EventsManager.OnReadyToSpawnAgent.OnAction += OnReadyToSpawnAgent;
     }
 
@@ -17,42 +12,51 @@ public class InputController : MonoBehaviour
     }
 
     private void OnReadyToSpawnAgent(Agent agent) {
-        _spriteObj = agent.gameObject;
+        _spriteTr = agent.gameObject.transform;
     }
 
     private void Update() {
-        CheckInputs();
+        Inputs();
     }
 
-    private void CheckInputs() {
-        if (_spriteObj != null && Input.GetMouseButton(0)) {
-            //TODO make cursor invisible or something
-            Vector3 mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition.z = _camera.transform.position.z + _camera.nearClipPlane;
-            _spriteObj.transform.position = mousePosition;
-        }
+    private void Inputs() {
+        //TODO input checks if still in game
+        
+        if (_spriteTr == null) 
+            return;
+        PointAndDragSprite();
+        DropSprite();
+    }
 
-        if (_spriteObj != null && Input.GetMouseButtonUp(0)) {
-            //FIRE raycast
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D rayHit = Physics2D.GetRayIntersection(ray, Mathf.Infinity, Data.TilesLayerMask);
-            if (!rayHit) {
-                ClearSpriteObj();
-                return;
-            }
-            if (rayHit.transform.TryGetComponent(out Tile tile)) {
-                if (!tile.StartingTile) {
-                    ClearSpriteObj();
-                    return;
-                }
-                EventsManager.OnSetPath.InvokeAction(tile);
-                _spriteObj = null;
-            }
+    private void PointAndDragSprite() {
+        if (!Input.GetMouseButton(0))
+            return;
+        Vector3 mousePos = Data.MainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = Data.MainCamera.transform.position.z + Data.MainCamera.nearClipPlane;
+        _spriteTr.transform.position = mousePos;
+    }
+
+    private void DropSprite() {
+        if (!Input.GetMouseButtonUp(0))
+            return;
+        Ray ray = Data.MainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D rayHit = Physics2D.GetRayIntersection(ray , Mathf.Infinity , Data.TilesLayerMask);
+        if (!rayHit) {
+            ClearSpriteObj();
+            return;
         }
+        if (!rayHit.transform.TryGetComponent(out Tile tile))
+            return;
+        if (!tile.StartingTile) {
+            ClearSpriteObj();
+            return;
+        }
+        EventsManager.OnSetPath.InvokeAction(tile); // TODO wait before spawn
+        _spriteTr = null;
     }
 
     private void ClearSpriteObj() {
-        Destroy(_spriteObj);
-        _spriteObj = null;
+        Destroy(_spriteTr.gameObject);
+        _spriteTr = null;
     }
 }

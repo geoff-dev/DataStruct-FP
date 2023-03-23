@@ -231,8 +231,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 315275194}
-  - component: {fileID: 315275196}
   - component: {fileID: 315275195}
+  - component: {fileID: 315275196}
   - component: {fileID: 315275197}
   m_Layer: 6
   m_Name: Tile_3
@@ -358,8 +358,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 325173695}
-  - component: {fileID: 325173697}
   - component: {fileID: 325173696}
+  - component: {fileID: 325173697}
   - component: {fileID: 325173698}
   m_Layer: 6
   m_Name: Tile_9
@@ -485,8 +485,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327321109}
-  - component: {fileID: 327321108}
   - component: {fileID: 327321107}
+  - component: {fileID: 327321108}
   - component: {fileID: 327321110}
   m_Layer: 6
   m_Name: Tile_2
@@ -742,8 +742,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1267609289}
-  - component: {fileID: 1267609291}
   - component: {fileID: 1267609290}
+  - component: {fileID: 1267609291}
   - component: {fileID: 1267609292}
   m_Layer: 6
   m_Name: Tile_5
@@ -869,8 +869,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1451194761}
-  - component: {fileID: 1451194763}
   - component: {fileID: 1451194762}
+  - component: {fileID: 1451194763}
   - component: {fileID: 1451194764}
   m_Layer: 6
   m_Name: Tile_6
@@ -996,8 +996,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1775439117}
-  - component: {fileID: 1775439119}
   - component: {fileID: 1775439118}
+  - component: {fileID: 1775439119}
   - component: {fileID: 1775439120}
   m_Layer: 6
   m_Name: Tile_7
@@ -1123,8 +1123,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1854139667}
-  - component: {fileID: 1854139669}
   - component: {fileID: 1854139668}
+  - component: {fileID: 1854139669}
   - component: {fileID: 1854139670}
   m_Layer: 6
   m_Name: Tile_4
@@ -1250,8 +1250,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1871391073}
-  - component: {fileID: 1871391072}
   - component: {fileID: 1871391071}
+  - component: {fileID: 1871391072}
   - component: {fileID: 1871391074}
   m_Layer: 6
   m_Name: Tile_1
@@ -1377,8 +1377,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1962555994}
-  - component: {fileID: 1962555996}
   - component: {fileID: 1962555995}
+  - component: {fileID: 1962555996}
   - component: {fileID: 1962555997}
   m_Layer: 6
   m_Name: Tile_8

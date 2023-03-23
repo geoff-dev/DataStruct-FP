@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Agent : MonoBehaviour
-{
+public class Agent : MonoBehaviour {
     [SerializeField] private float speedFactor = 1;
     [SerializeField] private AgentType type;
     private Queue<Tile> _path;
@@ -12,7 +11,7 @@ public class Agent : MonoBehaviour
     public void SetPath(Queue<Tile> path) {
         _path = path;
         StopAllCoroutines();
-        StartCoroutine(MoveAlongPath(path));
+        StartCoroutine(MoveAlongPath(_path));
     }
 
     private IEnumerator MoveAlongPath(Queue<Tile> path) {
@@ -22,12 +21,11 @@ public class Agent : MonoBehaviour
         while (path.Count > 0) {
             Tile nextTile = path.Dequeue();
             float lerpVal = 0;
-            //TODO looking on a 2D space
-            // transform.LookAt(nextTile.transform, Vector3.up);
+            // transform.LookAt(nextTile.transform, Vector3.up); // TODO rotation on X and Y axis
 
             while (lerpVal < 1) {
                 lerpVal += Time.deltaTime * speedFactor;
-                transform.position = Vector3.Lerp(lastPosition, nextTile.transform.position, lerpVal);
+                transform.position = Vector3.Lerp(lastPosition , nextTile.transform.position , lerpVal);
                 yield return new WaitForEndOfFrame();
             }
 
@@ -37,8 +35,7 @@ public class Agent : MonoBehaviour
     }
 }
 
-public enum AgentType
-{
-    ElGato,
-    Dehya,
+public enum AgentType {
+    ElGato ,
+    Dehya ,
 }
