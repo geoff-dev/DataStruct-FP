@@ -43,7 +43,7 @@ public class Tile : MonoBehaviour {
     public int Cost {
         get {
             return type switch {
-                TileType.Path => 1 ,
+                TileType.Path => 1,
                 _             => 0
             };
         }
@@ -51,11 +51,11 @@ public class Tile : MonoBehaviour {
 
     private void OnDrawGizmos() {
         Vector2 position = transform.position;
-        Gizmos.DrawSphere(position , 0.1f);
+        Gizmos.DrawSphere(position, 0.1f);
     }
 }
 
 public enum TileType {
-    Path ,
-    Wall ,
+    Path,
+    Wall,
 }

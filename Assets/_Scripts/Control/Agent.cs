@@ -8,6 +8,10 @@ public class Agent : MonoBehaviour {
     private Queue<Tile> _path;
     public AgentType Type => type;
 
+    private void OnDrawGizmos() {
+        ScreenGizmos.DisplayTransformInfo(this.transform, Vector2.up, Color.green);
+    }
+
     public void SetPath(Queue<Tile> path) {
         _path = path;
         StopAllCoroutines();

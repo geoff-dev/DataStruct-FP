@@ -1,10 +1,12 @@
 using System;
+using UnityEngine;
 
 public static class EventsManager {
     public static ActionOption<AgentType> OnPointerClick;
     public static ActionOption<Agent> OnReadyToSpawnAgent;
     public static ActionOption<Tile> OnSetPath;
     public static ActionOption<AgentType , int> OnUpdateAgentCount;
+    public static ActionOption<Collider2D[]> OnUpdateCamera;
 }
 
 public struct ActionOption<T , U> {
