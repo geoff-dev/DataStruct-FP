@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4569551830165419449}
   - component: {fileID: 4569551830165419448}
+  - component: {fileID: 7537174899658857323}
   m_Layer: 0
   m_Name: Cat_Dehya
   m_TagString: Untagged
@@ -45,9 +46,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ac5d6378f68448f8866aa074c616a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedFactor: 4
   type: 1
+  speedFactor: 4
   smoothFactor: 10
+--- !u!58 &7537174899658857323
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4569551830165419455}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &4569551830403743116
 GameObject:
   m_ObjectHideFlags: 0

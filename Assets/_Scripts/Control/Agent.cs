@@ -20,6 +20,7 @@ public class Agent : MonoBehaviour {
         _path = path;
         StopAllCoroutines();
         StartCoroutine(MoveAlongPath(_path));
+        this.gameObject.layer = Data.EntityLayer;
     }
 
     private IEnumerator MoveAlongPath(Queue<Tile> path) {

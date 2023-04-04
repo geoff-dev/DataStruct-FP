@@ -557,6 +557,8 @@ MonoBehaviour:
     Prefab: {fileID: 9039493293936247762, guid: ba8ad3b1573edf24496241aee4d55162, type: 3}
   - Color: {r: 0, g: 0, b: 0, a: 1}
     Prefab: {fileID: 7326127114735416864, guid: c2958e8ece5428e449b7118c801ab3fa, type: 3}
+  - Color: {r: 1, g: 0, b: 0, a: 1}
+    Prefab: {fileID: 7508501812821129044, guid: 63db15085128ec64ca412beeaea33279, type: 3}
 --- !u!4 &1288460648
 Transform:
   m_ObjectHideFlags: 0

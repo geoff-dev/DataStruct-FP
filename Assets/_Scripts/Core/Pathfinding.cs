@@ -17,7 +17,7 @@ public static class Pathfinding {
             foreach (Tile neighbor in MapManager.GetCurrentMap().Neighbors(curTile)) {
                 int newCost = costToReachTile[curTile] + neighbor.Cost;
                 if (!costToReachTile.ContainsKey(neighbor) || newCost < costToReachTile[neighbor]) {
-                    if (neighbor.Type == TileType.Wall) continue;
+                    if (neighbor.Type is TileType.Wall or TileType.Tower) continue;
                     costToReachTile[neighbor] = newCost;
                     int priority = newCost + Distance(neighbor , start);
                     frontier.Enqueue(neighbor , priority);
