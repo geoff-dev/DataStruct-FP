@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
-    
-    
     [SerializeField] private Texture2D mapTexture;
     [SerializeField] private ColorToPrefab[] colorMappings;
     private Map _map;

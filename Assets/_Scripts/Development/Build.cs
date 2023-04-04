@@ -26,12 +26,12 @@ public static class Build {
         return BuildBinary(build, productName);
     }
 
-    [MenuItem("Data Structures and Algorithms/Build/Build PC")]
+    [MenuItem("Debate Club/Build/Build PC")]
     public static void BuildPC() {
         BuildGame("PC", ".exe", BuildTarget.StandaloneWindows64 );
     }
     
-    [MenuItem("Data Structures and Algorithms/Build/Build WebGL")]
+    [MenuItem("Debate Club/Build/Build WebGL")]
     public static void BuildWebGL() {
         BuildGame("WebGL", "",BuildTarget.WebGL);
     }

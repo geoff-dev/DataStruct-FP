@@ -21,7 +21,6 @@ public class InputController : MonoBehaviour {
 
     private void UpdateInput() {
         // TODO input checks if still in game
-        
         if (_spriteTr == null) 
             return;
         PointAndDragSprite();

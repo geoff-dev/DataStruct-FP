@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Agent : MonoBehaviour {
-    [SerializeField] private float speedFactor = 1;
     [SerializeField] private AgentType type;
+    [Header("Movement")]
+    [SerializeField, Range(1f, 20f)] private float speedFactor = 1;
+    [Header("Rotation")]
+    [SerializeField, Range(1f, 20f)] private float smoothFactor = 3f;
+    
     private Queue<Tile> _path;
     public AgentType Type => type;
 
@@ -25,14 +29,14 @@ public class Agent : MonoBehaviour {
         while (path.Count > 0) {
             Tile nextTile = path.Dequeue();
             float lerpVal = 0;
-            // transform.LookAt(nextTile.transform, Vector3.up); // TODO rotation on X and Y axis
-
+            Vector3 vecToTarget = nextTile.transform.position - this.transform.position;
+            float angleDeg = Core.DirectionToAngle(vecToTarget, true);
             while (lerpVal < 1) {
                 lerpVal += Time.deltaTime * speedFactor;
                 transform.position = Vector3.Lerp(lastPosition , nextTile.transform.position , lerpVal);
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angleDeg), smoothFactor * Time.deltaTime);
                 yield return new WaitForEndOfFrame();
             }
-
             // yield return new WaitForSeconds(0.5f / speedFactor);
             lastPosition = nextTile.transform.position;
         }
