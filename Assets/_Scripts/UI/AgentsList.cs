@@ -5,11 +5,16 @@ public class AgentsList : MonoBehaviour {
     [SerializeField] private AgentData[ ] agents;
     private Dictionary<AgentType , AgentData> _agentsDictionary;
     private Agent _currentAgent;
+    private int agentsCount = 0;
 
     private void Awake() {
         _agentsDictionary = new Dictionary<AgentType , AgentData>();
-        foreach (AgentData agent in agents)
+        agentsCount = 0;
+        foreach (AgentData agent in agents) {
             _agentsDictionary[agent.Type] = agent;
+            agentsCount += agent.Count;
+        }
+        AgentManager.AssignAgentsCount(agentsCount);
         EventsManager.OnPointerClick.OnAction += OnPointerClickAction;
         EventsManager.OnSetPath.OnAction += OnSetPath;
     }
@@ -32,6 +37,8 @@ public class AgentsList : MonoBehaviour {
         int currentCount = --_agentsDictionary[_currentAgent.Type].Count;
         EventsManager.OnUpdateAgentCount.InvokeAction(_currentAgent.Type ,
             currentCount); //TODO game over after all cats deployed
+        agentsCount--;
+        
     }
 
     private void OnPointerClickAction(AgentType type) {
@@ -41,6 +48,8 @@ public class AgentsList : MonoBehaviour {
         Agent agent = Instantiate(agentData.Prefab);
         EventsManager.OnReadyToSpawnAgent.InvokeAction(agent);
         _currentAgent = agent;
+        
+        
     }
 
     [System.Serializable]

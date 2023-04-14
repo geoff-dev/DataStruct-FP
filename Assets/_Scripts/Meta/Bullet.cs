@@ -16,6 +16,11 @@ public class Bullet : MonoBehaviour {
             transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
             yield return new WaitForEndOfFrame();
         }
+        if(target.TryGetComponent(out IHealthHandler handler)){
+            handler?.DoDamage(1);
+        }
         Destroy(this.gameObject);
     }
+    
+    
 }

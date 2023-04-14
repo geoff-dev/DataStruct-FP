@@ -49,6 +49,7 @@ MonoBehaviour:
   type: 0
   speedFactor: 2
   smoothFactor: 7
+  initHealth: 10
 --- !u!58 &7273861487328336755
 CircleCollider2D:
   m_ObjectHideFlags: 0
