@@ -14,12 +14,9 @@ public class QueuePPT : MonoBehaviour {
     public CharacterPPT[] charactersPr;
 
     [Header("GUI Stuff")]
-    public Rect enqueueBtnRect;
-    public Rect dequeueBtnRect;
-    public Rect peekBtnRect;
-    private ButtonGUI enqueueBtn;
-    private ButtonGUI dequeueBtn;
-    private ButtonGUI peekBtn;
+    public ButtonGUI enqueueBtn;
+    public ButtonGUI dequeueBtn;
+    public ButtonGUI peekBtn;
     
     [Header("Transform Points")]
     public Transform spawnPtTr;
@@ -34,9 +31,9 @@ public class QueuePPT : MonoBehaviour {
     private void OnGUI() {
         if (!showGUI) return;
 
-        enqueueBtn = new ButtonGUI(enqueueBtnRect, "Enqueue");
-        dequeueBtn = new ButtonGUI(dequeueBtnRect, "Dequeue");
-        peekBtn = new ButtonGUI(peekBtnRect, "Peek");
+        enqueueBtn = new ButtonGUI(enqueueBtn.RectSize, enqueueBtn.Title);
+        dequeueBtn = new ButtonGUI(dequeueBtn.RectSize, dequeueBtn.Title);
+        peekBtn = new ButtonGUI(peekBtn.RectSize, peekBtn.Title);
         
         if (enqueueBtn.Click())
             EnqueuePresentation();
@@ -61,6 +58,7 @@ public class QueuePPT : MonoBehaviour {
             yield return new WaitForSeconds(1);
         }
         index = 0;
+        labelTmp.text = "";
     }
 
     IEnumerator Mobilize(CharacterPPT entity, Vector3 destination, bool destroyObj = false) {
@@ -83,6 +81,7 @@ public class QueuePPT : MonoBehaviour {
             StartCoroutine(Mobilize(character, ridePtTr.position, true));
             yield return new WaitForSeconds(0.5f);
         }
+        labelTmp.text = "";
     }
 
     void DequeuePresentation() {
