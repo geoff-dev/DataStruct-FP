@@ -1,14 +1,5 @@
 using UnityEngine;
 
-public static class FPSLogger {
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
-    public static void Initialize() {
-        Application.targetFrameRate = 60;
-        // TODO Save in data settings
-        MonoBehaviourHook.Create<FPSCounter>(null);
-    }
-}
-
 public class FPSCounter : MonoBehaviour {
     [SerializeField] float updateInterval = 0.5f; //How often should the number update
     float accum = 0.0f;

@@ -32,10 +32,6 @@ public class Agent : MonoBehaviour,IHealthHandler {
 
     #endregion
 
-    private void OnDrawGizmos() {
-        ScreenGizmos.DisplayTransformInfo(this.transform, Vector2.up, Color.green);
-    }
-
     #region Path
 
     public void SetPath(Queue<Tile> path) {
