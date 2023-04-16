@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Agent : MonoBehaviour,IHealthHandler {
@@ -14,6 +15,14 @@ public class Agent : MonoBehaviour,IHealthHandler {
 
     [SerializeField] private int initHealth = 4;
     private Coroutine deathCo = null;
+
+    private SpriteRenderer sr;
+    private Animator anim;
+
+    private void Awake() {
+        sr = this.GetComponentInChildren<SpriteRenderer>();
+        anim = this.GetComponentInChildren<Animator>();
+    }
 
     #region IHealthHandler
 
@@ -55,7 +64,11 @@ public class Agent : MonoBehaviour,IHealthHandler {
             Tile nextTile = path.Dequeue();
             float lerpVal = 0;
             Vector3 vecToTarget = nextTile.transform.position - this.transform.position;
-            float angleDeg = Core.DirectionToAngle(vecToTarget, true);
+            int angleDeg = (int)Core.DirectionToAngle(vecToTarget, true);
+            SetAnimState(angleDeg);
+            
+            
+            Debug.Log(angleDeg);
             while (lerpVal < 1) {
                 if (!IsAlive) {
                     AgentManager.UpdateEscapeAgent(false);
@@ -63,7 +76,8 @@ public class Agent : MonoBehaviour,IHealthHandler {
                 }
                 lerpVal += Time.deltaTime * speedFactor;
                 transform.position = Vector3.Lerp(lastPosition , nextTile.transform.position , lerpVal);
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angleDeg), smoothFactor * Time.deltaTime);
+                
+                // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, angleDeg), smoothFactor * Time.deltaTime);
                 yield return new WaitForEndOfFrame();
             }
             // yield return new WaitForSeconds(0.5f / speedFactor);
@@ -72,6 +86,31 @@ public class Agent : MonoBehaviour,IHealthHandler {
         // Add to escape list
         AgentManager.UpdateEscapeAgent(true);
         StartCoroutine(DisableAgent(.3f));
+    }
+
+    void SetAnimState(int angle) {
+        switch (angle) {
+            case 0:
+                if (!sr.flipX)
+                    sr.flipX = true;
+                anim.CrossFade(Data.WALK_SIDE, 0, 0);
+                break;
+            case 90:
+                if (sr.flipX)
+                    sr.flipX = false;
+                anim.CrossFade(Data.WALK_UP,0,0);
+                break;
+            case -90:
+                if (sr.flipX)
+                    sr.flipX = false;
+                anim.CrossFade(Data.WALK_DOWN,0,0);
+                break;
+            case 180:
+                if (sr.flipX)
+                    sr.flipX = false;
+                anim.CrossFade(Data.WALK_SIDE, 0, 0);
+                break;
+        }
     }
 
     #endregion
