@@ -5,13 +5,15 @@ using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+namespace PowerPoint {
 public class QueuePPT : MonoBehaviour {
+    #region Variables and OnGUI
+
     public bool showGUI = false;
     public TextMeshProUGUI labelTmp;
-    private Queue<CharacterPPT> charQueue = new Queue<CharacterPPT>();
 
     [Header("Prefabs")]
-    public CharacterPPT[] charactersPr;
+    public Character[] charactersPr;
 
     [Header("GUI Stuff")]
     public ButtonGUI enqueueBtn;
@@ -43,17 +45,22 @@ public class QueuePPT : MonoBehaviour {
             PeekPresentation();
     }
 
+    #endregion
+
+    private Queue<Character> charQueue = new Queue<Character>();
+
     void EnqueuePresentation() {
         labelTmp.text = "Enqueue";
         StartCoroutine(EnqueueCharacters());
     }
 
+    // ENQUEUE PPT CODE
     IEnumerator EnqueueCharacters() {
         while (index < queuePtTrs.Length) {
-            int randIdx = Random.Range(0, charactersPr.Length);
-            var character = Instantiate(charactersPr[randIdx], spawnPtTr.position, Quaternion.identity);
-            charQueue.Enqueue(character);
-            StartCoroutine(Mobilize(character, queuePtTrs[index].position));
+            int randIdx = Random.Range(0, charactersPr.Length); 
+            var character = Instantiate(charactersPr[randIdx], spawnPtTr.position, Quaternion.identity); 
+            charQueue.Enqueue(character); 
+            StartCoroutine(Mobilize(character, queuePtTrs[index].position)); 
             index++;
             yield return new WaitForSeconds(1);
         }
@@ -61,24 +68,24 @@ public class QueuePPT : MonoBehaviour {
         labelTmp.text = "";
     }
 
-    IEnumerator Mobilize(CharacterPPT entity, Vector3 destination, bool destroyObj = false) {
+    IEnumerator Mobilize(Character entity, Vector3 destination, bool isRiding = false) {
         yield return new WaitForSeconds(0.5f);
         entity.ChangeAnimState(Data.RUN_ANIM);
         Vector3 lastPos = entity.transform.position;
-        float t = 0;
-        for (t = 0; t < 1.0f; t += Time.deltaTime / timeToReach) {
+        for (float t = 0; t < 1.0f; t += Time.deltaTime / timeToReach) {
             entity.transform.position = Vector3.Lerp(lastPos, destination, t);
             yield return new WaitForEndOfFrame();
         }
         entity.ChangeAnimState(Data.IDLE_ANIM);
-        if(destroyObj)
+        if(isRiding)
             Destroy(entity.gameObject);
     }
 
+    // DEQUEUE PPT CODE
     IEnumerator DequeueCharacters() {
         while (charQueue.Count > 0) {
             var character = charQueue.Dequeue();
-            StartCoroutine(Mobilize(character, ridePtTr.position, true));
+            StartCoroutine(Mobilize(character, ridePtTr.position, isRiding: true));
             yield return new WaitForSeconds(0.5f);
         }
         labelTmp.text = "";
@@ -89,6 +96,7 @@ public class QueuePPT : MonoBehaviour {
         StartCoroutine(DequeueCharacters());
     }
 
+    // PEEK PPT CODE
     void PeekPresentation() {
         labelTmp.text = "Peek";
         charQueue.Peek();
@@ -110,6 +118,8 @@ public class QueuePPT : MonoBehaviour {
         convo.SetActive(false);
     }
 }
+}
+
 
 #region GUI Stuff
 

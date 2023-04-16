@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Pathfinding Code using A*
 public static class Pathfinding {
     private static Queue<Tile> AStar(Tile start , Tile goal) {
         Dictionary<Tile , Tile> nextTileToGoal = new Dictionary<Tile , Tile>();
@@ -44,7 +45,7 @@ public static class Pathfinding {
         return AStar(start , end);
     }
 
-    //Uses Manhattan Distance formula
+    // Uses Manhattan Distance formula
     private static int Distance(Tile t1 , Tile t2) {
         return Mathf.Abs(t1.X - t2.X) + Mathf.Abs(t1.Y - t2.Y);
     }

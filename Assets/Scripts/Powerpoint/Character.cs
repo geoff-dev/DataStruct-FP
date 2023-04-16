@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-public class CharacterPPT : MonoBehaviour {
+namespace PowerPoint {
+public class Character : MonoBehaviour {
     public CharacterType type;
     private Animator anim;
 
@@ -29,3 +30,5 @@ public enum CharacterType {
     Soldier,
     Civilian,
 }
+}
+
