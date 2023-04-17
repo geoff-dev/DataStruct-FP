@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -51,18 +52,18 @@ public class QueuePPT : MonoBehaviour {
 
     void EnqueuePresentation() {
         labelTmp.text = "Enqueue";
-        StartCoroutine(EnqueueCharacters());
+        EnqueueCharacters();
     }
 
     // ENQUEUE PPT CODE
-    IEnumerator EnqueueCharacters() {
+    async void EnqueueCharacters() {
         while (index < queuePtTrs.Length) {
             int randIdx = Random.Range(0, charactersPr.Length); 
             var character = Instantiate(charactersPr[randIdx], spawnPtTr.position, Quaternion.identity); 
             charQueue.Enqueue(character); 
             StartCoroutine(Mobilize(character, queuePtTrs[index].position)); 
             index++;
-            yield return new WaitForSeconds(1);
+            await Task.Delay(1000);
         }
         index = 0;
         labelTmp.text = "";
@@ -82,18 +83,18 @@ public class QueuePPT : MonoBehaviour {
     }
 
     // DEQUEUE PPT CODE
-    IEnumerator DequeueCharacters() {
+    async void DequeueCharacters() {
         while (charQueue.Count > 0) {
             var character = charQueue.Dequeue();
             StartCoroutine(Mobilize(character, ridePtTr.position, isRiding: true));
-            yield return new WaitForSeconds(0.5f);
+            await Task.Delay(500);
         }
         labelTmp.text = "";
     }
 
     void DequeuePresentation() {
         labelTmp.text = "Dequeue";
-        StartCoroutine(DequeueCharacters());
+        DequeueCharacters();
     }
 
     // PEEK PPT CODE
