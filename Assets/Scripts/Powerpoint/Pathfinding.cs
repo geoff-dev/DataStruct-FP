@@ -3,7 +3,7 @@ using UnityEngine;
 
 // Pathfinding Code using A*
 public static class Pathfinding {
-    private static Queue<Tile> AStar(Tile start , Tile goal) {
+    static Queue<Tile> AStar(Tile start , Tile goal) {
         Dictionary<Tile , Tile> nextTileToGoal = new Dictionary<Tile , Tile>();
         Dictionary<Tile , int> costToReachTile = new Dictionary<Tile , int>();
         PriorityQueue<Tile> frontier = new PriorityQueue<Tile>();
@@ -17,8 +17,10 @@ public static class Pathfinding {
 
             foreach (Tile neighbor in MapManager.GetCurrentMap().Neighbors(curTile)) {
                 int newCost = costToReachTile[curTile] + neighbor.Cost;
-                if (!costToReachTile.ContainsKey(neighbor) || newCost < costToReachTile[neighbor]) {
-                    if (neighbor.Type is TileType.Wall or TileType.Tower) continue;
+                if (!costToReachTile.ContainsKey(neighbor) 
+                    || newCost < costToReachTile[neighbor]) {
+                    if (neighbor.Type is TileType.Wall or TileType.Tower) 
+                        continue;
                     costToReachTile[neighbor] = newCost;
                     int priority = newCost + Distance(neighbor , start);
                     frontier.Enqueue(neighbor , priority);
@@ -26,8 +28,7 @@ public static class Pathfinding {
                 }
             }
         }
-
-        //Checker if starting there is starting point
+        //Check if starting point
         if (!nextTileToGoal.ContainsKey(start))
             return null;
 
@@ -37,7 +38,6 @@ public static class Pathfinding {
             pathTile = nextTileToGoal[pathTile];
             path.Enqueue(pathTile);
         }
-
         return path;
     }
 

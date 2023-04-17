@@ -43,7 +43,7 @@ public class QueuePPT : MonoBehaviour {
         if (dequeueBtn.Click())
             DequeuePresentation();        
         if (peekBtn.Click())
-            PeekPresentation();
+            PeekCharacter();
     }
 
     #endregion
@@ -55,13 +55,21 @@ public class QueuePPT : MonoBehaviour {
         EnqueueCharacters();
     }
 
+     Character GetCharacter() {
+            int randIdx = Random.Range(0, charactersPr.Length);
+            var character = Instantiate(charactersPr[randIdx],
+                                        spawnPtTr.position,
+                                        Quaternion.identity);
+            return character;
+     }
+
     // ENQUEUE PPT CODE
     async void EnqueueCharacters() {
         while (index < queuePtTrs.Length) {
-            int randIdx = Random.Range(0, charactersPr.Length); 
-            var character = Instantiate(charactersPr[randIdx], spawnPtTr.position, Quaternion.identity); 
+            var character = GetCharacter();
             charQueue.Enqueue(character); 
-            StartCoroutine(Mobilize(character, queuePtTrs[index].position)); 
+            StartCoroutine(Mobilize(character, 
+                       queuePtTrs[index].position)); 
             index++;
             await Task.Delay(1000);
         }
@@ -86,7 +94,9 @@ public class QueuePPT : MonoBehaviour {
     async void DequeueCharacters() {
         while (charQueue.Count > 0) {
             var character = charQueue.Dequeue();
-            StartCoroutine(Mobilize(character, ridePtTr.position, isRiding: true));
+            StartCoroutine(Mobilize(character, 
+                                    ridePtTr.position, 
+                                    isRiding: true));
             await Task.Delay(500);
         }
         labelTmp.text = "";
@@ -98,9 +108,9 @@ public class QueuePPT : MonoBehaviour {
     }
 
     // PEEK PPT CODE
-    void PeekPresentation() {
+    void PeekCharacter() {
         labelTmp.text = "Peek";
-        charQueue.Peek();
+        var firstCharacter = charQueue.Peek();
         StartSoldierConvo();
     }
 
