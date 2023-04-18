@@ -11,7 +11,7 @@ public class MapGenerator : MonoBehaviour {
         _tileCols = new List<Collider2D>();
         _map = GetComponent<Map>();
         GenerateMap();
-        _map.PopulateMap(mapTexture.width, mapTexture.height);
+        // _map.PopulateMap(mapTexture.width, mapTexture.height);
         EventsManager.OnUpdateCamera.InvokeAction(_tileCols.ToArray());
     }
 

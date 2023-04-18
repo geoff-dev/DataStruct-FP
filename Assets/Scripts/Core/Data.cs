@@ -17,5 +17,5 @@ public static class Data {
     
     // Main Camera
     private static Camera _camera;
-    public static Camera MainCamera => _camera ??= Camera.main;
+    public static Camera MainCamera => _camera = Camera.main;
 }

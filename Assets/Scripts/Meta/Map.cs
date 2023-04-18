@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Map : MonoBehaviour {
-    private int sizeX;
-    private int sizeY;
+    [SerializeField] private int sizeX; // 10
+    [SerializeField] private int sizeY; // 17
     private Tile[ ] _tiles;
     private Tile[,] _grid;
     private Dictionary<Tile, Tile[ ]> _neighborDictionary;
@@ -11,17 +11,22 @@ public class Map : MonoBehaviour {
     private Tile _endTile;
     public Tile[ ] Neighbors(Tile tile) => _neighborDictionary[tile];
 
-    private void Awake() { }
 
     private void OnDestroy() {
         MapManager.UnregisterMap(this);
     }
+    
+    private void Start() {
+        PopulateMap();
+        // EventsManager.OnUpdateCamera.InvokeAction(_tileCols.ToArray());
 
-    public void PopulateMap(int x, int y) {
+    }
+
+    private void PopulateMap() {
         _tiles = this.GetComponentsInChildren<Tile>();
         _startingTilesList = new List<Tile>();
-        sizeX = x;
-        sizeY = y;
+        // sizeX = x;
+        // sizeY = y;
         _grid = new Tile[sizeX, sizeY];
         _neighborDictionary = new Dictionary<Tile, Tile[ ]>();
         InitMap();

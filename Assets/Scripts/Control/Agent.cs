@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -66,8 +67,6 @@ public class Agent : MonoBehaviour,IHealthHandler {
             Vector3 vecToTarget = nextTile.transform.position - this.transform.position;
             int angleDeg = (int)Core.DirectionToAngle(vecToTarget, true);
             SetAnimState(angleDeg);
-            
-            
             Debug.Log(angleDeg);
             while (lerpVal < 1) {
                 if (!IsAlive) {
@@ -90,28 +89,30 @@ public class Agent : MonoBehaviour,IHealthHandler {
 
     void SetAnimState(int angle) {
         switch (angle) {
-            case 0:
-                if (!sr.flipX)
-                    sr.flipX = true;
-                anim.CrossFade(Data.WALK_SIDE, 0, 0);
-                break;
-            case 90:
-                if (sr.flipX)
-                    sr.flipX = false;
-                anim.CrossFade(Data.WALK_UP,0,0);
-                break;
-            case -90:
+            case -90 or > -70 and < -90: // -90
                 if (sr.flipX)
                     sr.flipX = false;
                 anim.CrossFade(Data.WALK_DOWN,0,0);
                 break;
-            case 180:
+            case 0 or > 0 and < 30: // 0
+                if (!sr.flipX)
+                    sr.flipX = true;
+                anim.CrossFade(Data.WALK_SIDE, 0, 0);
+                break;
+            case 90 or > 70 and < 90: // 90
+                if (sr.flipX)
+                    sr.flipX = false;
+                anim.CrossFade(Data.WALK_UP,0,0);
+                break;
+            case 180 or > 150 and < 180: // 180
                 if (sr.flipX)
                     sr.flipX = false;
                 anim.CrossFade(Data.WALK_SIDE, 0, 0);
                 break;
         }
     }
+    
+
 
     #endregion
 
