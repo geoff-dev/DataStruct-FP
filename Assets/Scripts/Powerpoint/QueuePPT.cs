@@ -23,7 +23,7 @@ public class QueuePPT : MonoBehaviour {
     
     [Header("Transform Points")]
     public Transform spawnPtTr;
-    public Transform ridePtTr;
+    public Transform bus;
     public Transform[ ] queuePtTrs;
     public float timeToReach = 1;
     private int index;
@@ -48,14 +48,14 @@ public class QueuePPT : MonoBehaviour {
 
     #endregion
 
-    private Queue<Character> charQueue = new Queue<Character>();
+    private Queue<Character> passengersQueue = new Queue<Character>();
 
     void EnqueuePresentation() {
         labelTmp.text = "Enqueue";
         EnqueueCharacters();
     }
 
-     Character GetCharacter() {
+     Character GetPassenger() {
             int randIdx = Random.Range(0, charactersPr.Length);
             var character = Instantiate(charactersPr[randIdx],
                                         spawnPtTr.position,
@@ -66,10 +66,11 @@ public class QueuePPT : MonoBehaviour {
     // ENQUEUE PPT CODE
     async void EnqueueCharacters() {
         while (index < queuePtTrs.Length) {
-            var character = GetCharacter();
-            charQueue.Enqueue(character); 
-            StartCoroutine(Mobilize(character, 
-                       queuePtTrs[index].position)); 
+            // var character = GetPassenger();
+            // passengersQueue.Enqueue(character); 
+            // StartCoroutine(MobilizeCo(character, 
+            //            queuePtTrs[index].position)); 
+            Enqueue(queuePtTrs[index].position);
             index++;
             await Task.Delay(1000);
         }
@@ -77,7 +78,17 @@ public class QueuePPT : MonoBehaviour {
         labelTmp.text = "";
     }
 
-    IEnumerator Mobilize(Character entity, Vector3 destination, bool isRiding = false) {
+    private void Enqueue(Vector3 queueLine) {
+        var newPassenger = GetPassenger();
+        passengersQueue.Enqueue(newPassenger);
+        Mobilize(newPassenger, queueLine);
+    }
+
+    void Mobilize(Character character, Vector3 dest, bool isRiding = false) {
+        StartCoroutine(MobilizeCo(character, dest, isRiding));
+    }
+
+    IEnumerator MobilizeCo(Character entity, Vector3 destination, bool isRiding = false) {
         yield return new WaitForSeconds(0.5f);
         entity.ChangeAnimState(Data.RUN_ANIM);
         Vector3 lastPos = entity.transform.position;
@@ -90,13 +101,19 @@ public class QueuePPT : MonoBehaviour {
             Destroy(entity.gameObject);
     }
 
+    private void Dequeue() {
+        var passengerInLine = passengersQueue.Dequeue();
+        Mobilize(passengerInLine, bus.position, isRiding: true);
+    }
+
     // DEQUEUE PPT CODE
     async void DequeueCharacters() {
-        while (charQueue.Count > 0) {
-            var character = charQueue.Dequeue();
-            StartCoroutine(Mobilize(character, 
-                                    ridePtTr.position, 
-                                    isRiding: true));
+        while (passengersQueue.Count > 0) {
+                //var character = passengersQueue.Dequeue();
+                //StartCoroutine(MobilizeCo(character, 
+                //                        bus.position, 
+                //                        isRiding: true));
+            Dequeue();
             await Task.Delay(500);
         }
         labelTmp.text = "";
@@ -110,8 +127,14 @@ public class QueuePPT : MonoBehaviour {
     // PEEK PPT CODE
     void PeekCharacter() {
         labelTmp.text = "Peek";
-        var firstCharacter = charQueue.Peek();
+        //var firstCharacter = passengersQueue.Peek();
+        Peek();
         StartSoldierConvo();
+    }
+
+    void Peek() {
+        var firstPassenger = passengersQueue.Peek();
+        Debug.Log(firstPassenger);
     }
 
     void StartSoldierConvo() {

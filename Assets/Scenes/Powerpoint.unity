@@ -317,7 +317,7 @@ MonoBehaviour:
       width: 100
       height: 20
   spawnPtTr: {fileID: 472142671}
-  ridePtTr: {fileID: 1509840502}
+  bus: {fileID: 1509840502}
   queuePtTrs:
   - {fileID: 1478352367}
   - {fileID: 290704459}
